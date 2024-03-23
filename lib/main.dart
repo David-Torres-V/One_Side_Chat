@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_side_chat/config/theme/app_theme.dart';
+import 'package:one_side_chat/presentation/screens/chat/chat_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,11 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme(selectedColor:2).theme(),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: FilledButton.tonal(onPressed: (){}, child: const Text('Check me')),
-        ),
-      ),
+      home: const ChatScreen(),
     );
   }
 }
