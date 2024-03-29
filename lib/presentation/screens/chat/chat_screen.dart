@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:one_side_chat/domain/entities/message.dart';
+import 'package:one_side_chat/presentation/providers/chat_provider.dart';
 import 'package:one_side_chat/presentation/widgets/chat/message_field_box.dart';
 import 'package:one_side_chat/presentation/widgets/chat/my_message_bubble.dart';
-import 'package:one_side_chat/presentation/widgets/chat/receiver_message.dart';
+import 'package:one_side_chat/presentation/widgets/chat/bot_message.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -56,20 +59,28 @@ class ChatScreen extends StatelessWidget {
 class _ChatView extends StatelessWidget {
   const _ChatView({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
+
+
+    final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
         child:
         Column(
           children: [
             Expanded(
                 child:ListView.builder(
-                  itemCount: 10,
+                  controller: chatProvider.chatScrollController,
+                  itemCount: chatProvider.messageList.length,
                   itemBuilder: (context, index) {
-                  return (index%2==0)?ReceiverMessageBubble():MyMessageBubble();
+                    final message = chatProvider.messageList[index];
+                  return (message.fromWho==FromWho.bot)?BotMessageBubble(message: message,):MyMessageBubble(message: message,);
                 },)
             ),
-            MessageFieldBox(),
+            MessageFieldBox(onValue: (value) => chatProvider.sendMessage(value),),
           ],
         )
     );

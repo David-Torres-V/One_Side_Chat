@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:one_side_chat/domain/entities/message.dart';
 
-class ReceiverMessageBubble extends StatelessWidget {
-  const ReceiverMessageBubble({super.key});
-
+class BotMessageBubble extends StatelessWidget {
+  final Message message;
+  const BotMessageBubble({super.key,required this.message});
   @override
   Widget build(BuildContext context) {
 
@@ -17,12 +18,12 @@ class ReceiverMessageBubble extends StatelessWidget {
           decoration: BoxDecoration(color: colors.primary, borderRadius: BorderRadius.circular(8)),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Text('Lorem Ipsum',style: TextStyle(color: colors.background),),
+            child: Text(message.text,style: TextStyle(color: colors.background),),
           ),
         ),
         const SizedBox(height: 10,),
 
-        const _ImageBubble(),
+        _ImageBubble(message.imageURL ?? 'https://yesno.wtf/assets/yes/11-a23cbde4ae018bbda812d2d8b2b8fc6c.gif',),
 
         const SizedBox(height: 10,),
       ],
@@ -31,7 +32,8 @@ class ReceiverMessageBubble extends StatelessWidget {
 }
 
 class _ImageBubble extends StatelessWidget {
-  const _ImageBubble({super.key});
+  final String imageURL;
+  const _ImageBubble(this.imageURL);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class _ImageBubble extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
-      child: Image.network('https://yesno.wtf/assets/no/24-159febcfd655625c38c147b65e5be565.gif',
+      child: Image.network(imageURL!,
         height: size.height*0.3,
         width: size.width*0.7,
         fit: BoxFit.cover,
